@@ -29,5 +29,6 @@ func handler() (string, error) {
 }
 
 func main() {
+	fmt.Println("Registering handler ...")
 	lambda.Start(handler)
 }
