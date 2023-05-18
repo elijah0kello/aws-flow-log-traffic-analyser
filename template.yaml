@@ -8,19 +8,19 @@ Description: >
 # More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
 Globals:
   Function:
-    Timeout: 5
-    MemorySize: 128
+    Timeout: 10
+    MemorySize: 256
 
     Tracing: Active
   Api:
     TracingEnabled: true
 Resources:
-  HelloWorldFunction:
+  FlowLogsAnalyzer:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Metadata:
       BuildMethod: go1.x
     Properties:
-      CodeUri: hello-world/
+      CodeUri: analyzer/
       Handler: bootstrap
       Runtime: provided.al2
       Architectures:
@@ -42,9 +42,9 @@ Outputs:
   HelloWorldAPI:
     Description: API Gateway endpoint URL for Prod environment for First Function
     Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/hello/"
-  HelloWorldFunction:
+  FlowLogsAnalyzer:
     Description: First Lambda Function ARN
-    Value: !GetAtt HelloWorldFunction.Arn
-  HelloWorldFunctionIamRole:
+    Value: !GetAtt FlowLogsAnalyzer.Arn
+  FlowLogsAnalyzerIamRole:
     Description: Implicit IAM Role created for Hello World function
-    Value: !GetAtt HelloWorldFunctionRole.Arn
+    Value: !GetAtt FlowLogsAnalyzerRole.Arn

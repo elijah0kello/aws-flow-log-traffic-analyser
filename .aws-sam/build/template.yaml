@@ -1,0 +1,52 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: 'aws-flow-log-analyzer
+
+  Sample SAM Template for aws-flow-log-analyzer
+
+  '
+Globals:
+  Function:
+    Timeout: 10
+    MemorySize: 256
+    Tracing: Active
+  Api:
+    TracingEnabled: true
+Resources:
+  FlowLogsAnalyzer:
+    Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: go1.x
+      SamResourceId: FlowLogsAnalyzer
+    Properties:
+      CodeUri: FlowLogsAnalyzer
+      Handler: bootstrap
+      Runtime: provided.al2
+      Architectures:
+      - x86_64
+      Events:
+        CatchAll:
+          Type: Api
+          Properties:
+            Path: /hello
+            Method: GET
+      Environment:
+        Variables:
+          PARAM1: VALUE
+Outputs:
+  HelloWorldAPI:
+    Description: API Gateway endpoint URL for Prod environment for First Function
+    Value:
+      Fn::Sub: https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/hello/
+  FlowLogsAnalyzer:
+    Description: First Lambda Function ARN
+    Value:
+      Fn::GetAtt:
+      - FlowLogsAnalyzer
+      - Arn
+  FlowLogsAnalyzerIamRole:
+    Description: Implicit IAM Role created for Hello World function
+    Value:
+      Fn::GetAtt:
+      - FlowLogsAnalyzerRole
+      - Arn
